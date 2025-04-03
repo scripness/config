@@ -1,0 +1,94 @@
+let mapleader=" "
+
+""" Plugins --------------------------------
+set surround
+set multiple-cursors
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+set exchange
+set quickscope
+set which-key
+
+" Trying the new syntax
+Plug 'machakann/vim-highlightedyank'
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>"
+
+" <C-n> seems to me as a better solution than <M-n>,
+" but we should finally support vim-visual-multi because vim-multiple-cursors is deprecated now
+map <C-n> <Plug>NextWholeOccurrence
+
+""" Common settings -------------------------
+set clipboard+=unnamedplus
+set showmode
+set so=5
+set incsearch
+set nu
+set notimeout
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+
+""" Mappings -----------------------------
+map / <Plug>(easymotion-s)
+
+map <leader>w <Action>(CloseContent)
+map <leader>d <Action>(EditorDuplicate)
+map <leader>r <Action>(RenameElement)
+map <leader>v <Action>(SelectInProjectView)
+map <leader>s <Action>(FileStructurePopup)
+map <leader>[ <Action>(Back)
+map <leader>] <Action>(Forward)
+
+map <leader>J Ji <ESC>
+map <leader>c cit
+
+" Jump to matching brace
+" map % <Action>(EditorMatchBrace)
+
+" Code navigation
+map <leader>g <Action>(GotoDeclaration)
+map <leader>u <Action>(FindUsages)
+map <leader>h <Action>(ShowHoverInfo)
+map <leader>e <Action>(ShowErrorDescription)
+map <leader>i <Action>(QuickImplementations)
+
+" Search everywhere, files, and actions
+map <leader>p <Action>(SearchEverywhere)
+map <leader>a <Action>(GotoAction)
+map <leader>f <Action>(GotoFile)
+map <leader>m <Action>(RecentFiles)
+
+" Code refactoring
+map <leader>R <Action>(Refactorings.QuickListPopupAction)
+map <leader>x <Action>(ShowIntentionActions)
+map <leader>n <Action>(InspectCode)
+
+" Git operations
+map <leader>gb <Action>(Git.Branches)
+map <leader>gp <Action>(Vcs.Push)
+map <leader>gl <Action>(Vcs.Show.Log)
+map <leader>gh <Action>(Vcs.ShowHistoryForBlock)
+
+" Debug/Run
+map <leader>dbp <Action>(ToggleLineBreakpoint)
+map <leader>dbr <Action>(Debug)
+map <leader>dbc <Action>(RunClass)
+
+" Tool windows
+map <leader>t <Action>(ActivateTerminalToolWindow)
+map <leader>P <Action>(ActivateProjectToolWindow)
+
+" Just makes me nervous
+map H h
+
+" I think it's a better solution
+map U <C-R>
+
+" Use ctrl-v as an ide shortcut in normal and visual modes
+sethandler <C-V> i:ide
