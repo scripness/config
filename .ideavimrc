@@ -76,9 +76,9 @@ map <leader>gl <Action>(Vcs.Show.Log)
 map <leader>gh <Action>(Vcs.ShowHistoryForBlock)
 
 " Debug/Run
-map <leader>dbp <Action>(ToggleLineBreakpoint)
-map <leader>dbr <Action>(Debug)
-map <leader>dbc <Action>(RunClass)
+"map <leader>dbp <Action>(ToggleLineBreakpoint)
+"map <leader>dbr <Action>(Debug)
+"map <leader>dbc <Action>(RunClass)
 
 " Tool windows
 map <leader>t <Action>(ActivateTerminalToolWindow)
