@@ -1,4 +1,4 @@
-let mapleader=" "
+"let mapleader=" "
 
 """ Plugins --------------------------------
 set surround
@@ -24,6 +24,7 @@ map <C-n> <Plug>NextWholeOccurrence
 
 """ Common settings -------------------------
 set clipboard+=unnamedplus
+set relativenumber
 set showmode
 set so=5
 set incsearch
@@ -46,7 +47,7 @@ map <leader>[ <Action>(Back)
 map <leader>] <Action>(Forward)
 
 map <leader>J Ji <ESC>
-map <leader>c cit
+map <leader>c cib
 
 " Jump to matching brace
 " map % <Action>(EditorMatchBrace)

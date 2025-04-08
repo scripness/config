@@ -1,7 +1,5 @@
-fish_add_path /usr/local/go/bin
 fish_add_path $HOME/.local/bin
 fish_add_path $HOME/.composer/vendor/bin
-fish_add_path $HOME/.encore/bin
 fish_add_path $HOME/.phpenv/bin
 fish_add_path $HOME/.phpenv/shims
 
@@ -10,16 +8,11 @@ set -U EDITOR nvim
 
 set -g fish_key_bindings fish_vi_key_bindings
 
-# set -gx BW_SESSION "9eMOK9mevI1Er0YcoLgTMILbsLNH4y+m1L2NnJyDSwlxb36/xqtZJ6JtHjmxn1hJzintUH3jN9d+vIpbTgcB6A=="
-
 fzf --fish | source
-
-source "$HOME/.cargo/env.fish"
 
 # Base
 abbr l ll -a
 abbr tq ~/Downloads/TitanQuestAE_Linux/start.sh
-abbr q quicknotes
 
 # Neovim
 alias vi='nvim'
@@ -55,10 +48,6 @@ abbr tdb 'task dev:bash'
 abbr tdm 'task dev:migrate'
 abbr tds 'task dev:seed'
 abbr tdc 'task dev:console --'
-
-# Bun
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
 
 # Docker / Podman
 # alias docker podman
