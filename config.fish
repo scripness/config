@@ -1,8 +1,6 @@
 set -U fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 
-fzf --fish | source
-
 abbr l ll -a
 
 alias vi='nvim'
