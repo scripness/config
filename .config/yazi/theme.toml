@@ -1,0 +1,111 @@
+# Oxocarbon theme for Yazi
+# Based on https://github.com/nyoom-engineering/oxocarbon.nvim
+
+[app]
+overall = { bg = "#161616" }
+
+[mgr]
+border_symbol = "│"
+border_style = { fg = "#393939" }
+
+find_keyword = { fg = "#ff7eb6", bold = true }
+find_position = { fg = "#42be65", italic = true }
+
+marker_copied = { fg = "#42be65", bg = "#42be65" }
+marker_cut = { fg = "#ee5396", bg = "#ee5396" }
+marker_marked = { fg = "#78a9ff", bg = "#78a9ff" }
+marker_selected = { fg = "#be95ff", bg = "#be95ff" }
+
+count_copied = { fg = "#161616", bg = "#42be65" }
+count_cut = { fg = "#161616", bg = "#ee5396" }
+count_selected = { fg = "#161616", bg = "#be95ff" }
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#262626", bg = "#262626" }
+
+mode_normal = { fg = "#161616", bg = "#78a9ff", bold = true }
+mode_select = { fg = "#161616", bg = "#be95ff", bold = true }
+mode_unset = { fg = "#161616", bg = "#ee5396", bold = true }
+
+progress_label = { fg = "#f2f4f8", bold = true }
+progress_normal = { fg = "#78a9ff", bg = "#262626" }
+progress_error = { fg = "#ee5396", bg = "#262626" }
+
+perm_type = { fg = "#78a9ff" }
+perm_read = { fg = "#42be65" }
+perm_write = { fg = "#ff7eb6" }
+perm_exec = { fg = "#ee5396" }
+perm_sep = { fg = "#525252" }
+
+[which]
+mask = { bg = "#262626" }
+cand = { fg = "#33b1ff" }
+rest = { fg = "#dde1e6" }
+desc = { fg = "#ff7eb6" }
+separator = " → "
+separator_style = { fg = "#525252" }
+
+[confirm]
+border = { fg = "#78a9ff" }
+title = { fg = "#78a9ff" }
+body = { fg = "#f2f4f8" }
+btn_no = { fg = "#ee5396", reverse = true }
+btn_yes = { fg = "#42be65", reverse = true }
+
+[spot]
+border = { fg = "#393939" }
+
+[pick]
+border = { fg = "#78a9ff" }
+active = { fg = "#ff7eb6", bold = true }
+inactive = { fg = "#f2f4f8" }
+
+[input]
+border = { fg = "#78a9ff" }
+title = { fg = "#78a9ff" }
+value = { fg = "#f2f4f8" }
+selected = { reversed = true }
+
+[cmp]
+border = { fg = "#393939" }
+active = { fg = "#ff7eb6", bold = true }
+inactive = { fg = "#f2f4f8" }
+
+[tasks]
+border = { fg = "#78a9ff" }
+title = { fg = "#78a9ff" }
+hovered = { fg = "#ff7eb6", underline = true }
+
+[help]
+on = { fg = "#33b1ff" }
+run = { fg = "#ff7eb6" }
+desc = { fg = "#dde1e6" }
+footer = { fg = "#262626", bg = "#f2f4f8" }
+
+[filetype]
+rules = [
+  # Directories
+  { url = "*/", fg = "#78a9ff", bold = true },
+
+  # Executables
+  { is = "exec", fg = "#42be65" },
+
+  # Links
+  { is = "link", fg = "#33b1ff" },
+  { is = "orphan", fg = "#ee5396" },
+
+  # Special files
+  { is = "block", fg = "#be95ff" },
+  { is = "char", fg = "#be95ff" },
+  { is = "fifo", fg = "#ff7eb6" },
+  { is = "sock", fg = "#ff7eb6" },
+  { is = "sticky", fg = "#08bdba" },
+
+  # Hidden files
+  { url = "**/.*", fg = "#525252" },
+
+  # Fallback
+  { url = "*", fg = "#dde1e6" },
+]
