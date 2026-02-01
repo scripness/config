@@ -63,7 +63,7 @@ do_link() {
     # .config subdirectories
     link "$CONFIG_REPO/.config/amp" "$HOME/.config/amp"
     link "$CONFIG_REPO/.config/fish" "$HOME/.config/fish"
-    link "$CONFIG_REPO/.config/kitty" "$HOME/.config/kitty"
+    link "$CONFIG_REPO/.config/ghostty" "$HOME/.config/ghostty"
     
     # Neovim (separate repo)
     link "$NVIM_REPO" "$HOME/.config/nvim"
@@ -77,7 +77,7 @@ do_verify() {
     verify "$CONFIG_REPO/.gitconfig" "$HOME/.gitconfig"
     verify "$CONFIG_REPO/.config/amp" "$HOME/.config/amp"
     verify "$CONFIG_REPO/.config/fish" "$HOME/.config/fish"
-    verify "$CONFIG_REPO/.config/kitty" "$HOME/.config/kitty"
+    verify "$CONFIG_REPO/.config/ghostty" "$HOME/.config/ghostty"
     verify "$NVIM_REPO" "$HOME/.config/nvim"
 }
 

@@ -1,6 +1,19 @@
 {
+  "amp.terminal.theme": "oxocarbon",
   "amp.dangerouslyAllowAll": true,
   "amp.experimental.autoHandoff": {
     "context": 90
+  },
+  "amp.mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/usr/bin/chromium-browser",
+        "--isolated",
+        "--headless"
+      ]
+    }
   }
 }

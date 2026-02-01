@@ -1,0 +1,29 @@
+name = "Oxocarbon"
+mode = "dark"
+
+[colors]
+background = "#000000"
+foreground = "#ffffff"
+primary = "#78a9ff"
+secondary = "#be95ff"
+accent = "#33b1ff"
+success = "#42be65"
+warning = "#ffe97b"
+info = "#33b1ff"
+destructive = "#ee5396"
+
+[ui]
+cursor = "#ffffff"
+border = "#393939"
+selection = "#393939"
+muted_foreground = "#6f6f6f"
+
+[syntax]
+keyword = "#ff7eb6"
+string = "#42be65"
+number = "#ffe97b"
+comment = "#6f6f6f"
+function = "#33b1ff"
+variable = "#ffffff"
+type = "#be95ff"
+operator = "#78a9ff"
