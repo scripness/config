@@ -1,16 +1,14 @@
 set -U fish_greeting
 set -g fish_key_bindings fish_vi_key_bindings
 
-# fish_add_path ~/.local/bin
-
 set -gx EDITOR nvim
 
 abbr l ll -a
 abbr b bat
+abbr c cat
 abbr a amp --ide
 
-alias cat='batcat'
-alias bat='batcat'
+alias cat='bat'
 
 alias fd='fdfind'
 
@@ -24,3 +22,8 @@ abbr copy 'xclip -selection clipboard'
 abbr clip 'xclip -selection clipboard'
 
 abbr t termdown
+abbr f yazi
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
