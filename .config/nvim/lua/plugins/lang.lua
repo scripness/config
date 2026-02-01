@@ -1,20 +1,5 @@
 return {
-  -- TypeScript/JavaScript support (LazyVim extra)
-  { import = "lazyvim.plugins.extras.lang.typescript" },
-
-  -- JSON support
-  { import = "lazyvim.plugins.extras.lang.json" },
-
-  -- Tailwind CSS support
-  { import = "lazyvim.plugins.extras.lang.tailwind" },
-
-  -- Markdown support
-  { import = "lazyvim.plugins.extras.lang.markdown" },
-
-  -- YAML support
-  { import = "lazyvim.plugins.extras.lang.yaml" },
-
-  -- Use Biome for formatting/linting (you use biome.json)
+  -- Use Biome for formatting/linting
   {
     "stevearc/conform.nvim",
     opts = {
