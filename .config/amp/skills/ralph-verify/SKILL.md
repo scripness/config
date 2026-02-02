@@ -9,6 +9,12 @@ Comprehensive, multi-layer verification to ensure Ralph's branch is 100% ready t
 
 ---
 
+## PRD Location
+
+**Always use this exact path:** `scripts/ralph/prd.json`
+
+---
+
 ## The Job
 
 After Ralph completes, perform exhaustive verification:
@@ -17,8 +23,10 @@ After Ralph completes, perform exhaustive verification:
 2. **Test coverage audit** — ensure new code is tested, flag gaps
 3. **Best practices check** — use btca to verify patterns match latest docs
 4. **Browser verification** — test all new routes and UI
-5. **Oracle comprehensive review** — validate against prd.json and progress.txt
-6. **Fix all issues** — iterate until everything passes
+5. **Oracle comprehensive review** — validate against prd.json
+6. **Learnings preservation check** — verify patterns saved to AGENTS.md
+7. **Reset failed stories** — edit prd.json to mark stories for retry
+8. **Re-run ralph** — user runs `bun run ralph` to fix issues
 
 **Goal:** After this skill completes, the branch is 100% ready to merge with zero worry.
 
@@ -31,11 +39,10 @@ Read and understand what Ralph built:
 1. Read `scripts/ralph/prd.json` — extract:
    - Branch name
    - All user stories and their acceptance criteria
+   - `run.learnings[]` — patterns discovered
    - Which stories involve routes, UI, backend, database
-2. Read `scripts/ralph/progress.txt` — check for:
-   - Any stories marked as failed or with issues
-   - Notes about problems encountered
-3. Get list of files changed: `git diff --name-only main..{branch}`
+2. Check `lastResult` for each story — any with incomplete summaries?
+3. Get list of files changed: `git diff --name-only main..HEAD`
 
 ---
 
@@ -123,7 +130,28 @@ Load the `dev-browser` skill:
 
 ---
 
-## Step 6: Oracle Comprehensive Review
+## Step 6: Learnings Preservation Check
+
+Verify that important discoveries from this run are saved:
+
+1. **Check `prd.json → run.learnings[]`:**
+   - Are patterns discovered during this run documented?
+   - If empty but stories were complex, something may be missing
+
+2. **Check relevant AGENTS.md files:**
+   - Did any stories involve patterns that should be permanent?
+   - Cross-reference `run.learnings[]` with module AGENTS.md files
+   - If a pattern in `run.learnings[]` is general, ensure it's in AGENTS.md
+
+3. **Ask oracle to review:**
+   - Are there patterns in the code changes that should be documented?
+   - Is any AGENTS.md file missing context that would help future agents?
+
+**Action:** If important patterns are missing from AGENTS.md, add them before marking complete.
+
+---
+
+## Step 7: Oracle Comprehensive Review
 
 Ask the oracle for a thorough review with full context:
 
@@ -134,7 +162,6 @@ Perform a comprehensive review of Ralph's implementation.
 ## Context
 - Branch: {branch-name}
 - PRD: [attach scripts/ralph/prd.json]
-- Progress: [attach scripts/ralph/progress.txt]
 - Changed files: [list from git diff --name-only]
 
 ## Review Tasks
@@ -144,11 +171,7 @@ Perform a comprehensive review of Ralph's implementation.
    - Flag any criteria that appear unimplemented or incomplete
    - Check that implementation matches the described behavior
 
-2. **Progress.txt Issues:** Review any notes or issues logged:
-   - Are all noted problems resolved?
-   - Any workarounds that need proper fixes?
-
-3. **Security Audit:**
+2. **Security Audit:**
    - All user input escaped with escapeHtml()?
    - All user-facing strings using t() for i18n?
    - Rate limiting where needed?
@@ -156,18 +179,18 @@ Perform a comprehensive review of Ralph's implementation.
    - CSRF protection on forms?
    - Proper authorization checks?
 
-4. **Code Quality:**
+3. **Code Quality:**
    - Follows existing codebase patterns?
    - No dead code, console.logs, or TODOs?
    - Error handling complete?
    - Edge cases covered?
 
-5. **Performance:**
+4. **Performance:**
    - No obvious N+1 queries?
    - Images optimized and lazy-loaded?
    - No blocking operations in request handlers?
 
-6. **Missing Pieces:**
+5. **Missing Pieces:**
    - Anything in the PRD that was skipped?
    - Any implicit requirements not addressed?
 
@@ -178,9 +201,9 @@ Provide a detailed report with specific file:line references for any issues.
 
 ---
 
-## Step 7: Final Verification Loop
+## Step 8: Final Verification Loop
 
-After fixing issues from Steps 2-6:
+After fixing issues from Steps 2-7:
 
 1. Re-run all automated checks:
    ```bash
@@ -191,11 +214,39 @@ After fixing issues from Steps 2-6:
 
 3. Quick browser smoke test of critical paths
 
-4. If any step fails, fix and repeat Step 7
+4. If any step fails, fix and repeat Step 8
 
 ---
 
-## Step 8: Generate Final Report
+## Step 9: Reset Failed Stories
+
+When issues are found that require story reimplementation:
+
+1. **Identify affected stories** — which stories have issues that need fixes
+2. **For each affected story, update `scripts/ralph/prd.json`:**
+   ```json
+   {
+     "passes": false,
+     "retries": <current_retries + 1>,
+     "lastResult": null,
+     "notes": "<brief description of what needs fixing>"
+   }
+   ```
+3. **Use jq or edit_file** to make the changes atomically
+4. **Report to user:**
+   ```
+   Reset for retry:
+   - US-005: Missing test coverage for edge case
+   - US-012: Security issue with unescaped input
+   
+   Run `bun run ralph` to fix these stories.
+   ```
+
+**Important:** Only reset stories that genuinely need reimplementation. Minor issues can be fixed directly without resetting.
+
+---
+
+## Step 10: Generate Final Report
 
 Create comprehensive verification report:
 
@@ -229,6 +280,11 @@ Create comprehensive verification report:
 - [x] Mobile responsive verified
 - [x] No visual issues found
 
+### Learnings Preserved
+- [x] run.learnings[] populated: {count} patterns
+- [x] AGENTS.md files updated where needed
+- [x] No undocumented patterns found
+
 ### Oracle Review
 - [x] All PRD acceptance criteria met
 - [x] No security issues
@@ -239,6 +295,9 @@ Create comprehensive verification report:
 1. {issue} → {fix}
 2. ...
 
+### Stories Reset for Retry
+- None (or list stories reset in prd.json)
+
 ### Confidence Level: ✅ 100% READY TO MERGE
 ```
 
@@ -246,16 +305,18 @@ Create comprehensive verification report:
 
 ## Completion Criteria
 
-The skill is complete when:
+The skill is complete when **either**:
 
+**A) All checks pass:**
 - [ ] All automated checks pass (typecheck, lint, build, tests)
 - [ ] Test coverage is adequate (no critical gaps)
 - [ ] btca confirms patterns are current
 - [ ] Browser verification passes for all new features
+- [ ] Learnings preserved (run.learnings populated, AGENTS.md updated)
 - [ ] Oracle review passes with no unresolved issues
 - [ ] Final report generated with "100% READY TO MERGE"
 
-**Only then:** Tell the user the branch is ready and suggest:
+**Then:** Tell the user the branch is ready:
 ```
 Ready to merge. Options:
 1. git checkout main && git merge {branch-name}
@@ -263,12 +324,28 @@ Ready to merge. Options:
 3. git push origin {branch-name} for CI
 ```
 
+**B) Issues found requiring reimplementation:**
+- [ ] Issues documented with specific story IDs
+- [ ] Affected stories reset in `scripts/ralph/prd.json` (passes: false, retries++, lastResult: null)
+- [ ] Notes field populated with what needs fixing
+- [ ] User instructed to run `bun run ralph` to fix
+
+**Then:** Tell the user to re-run Ralph:
+```
+Stories reset for retry in scripts/ralph/prd.json:
+- US-005: Missing input validation
+- US-012: Test coverage gap
+
+Run `bun run ralph` to fix these stories, then run ralph-verify again.
+```
+
 ---
 
 ## If Issues Cannot Be Resolved
 
-If you encounter issues that cannot be fixed:
+If you encounter issues that cannot be fixed by Ralph:
 
 1. Document them clearly in the report
 2. Mark confidence as "BLOCKED" with reason
-3. Suggest: manual intervention needed, or handoff to new thread with specific problem statement
+3. Do NOT reset the story (manual fix required)
+4. Suggest: manual intervention needed, or handoff to new thread with specific problem statement

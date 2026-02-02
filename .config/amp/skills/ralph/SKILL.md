@@ -6,7 +6,7 @@ user-invocable: true
 
 # Ralph PRD Converter
 
-Converts existing PRDs to the prd.json format that Ralph uses for autonomous execution.
+Converts existing PRDs to the prd.json v2 format that Ralph uses for autonomous execution.
 
 ---
 
@@ -16,13 +16,19 @@ Take a PRD (markdown file or text) and convert it to `scripts/ralph/prd.json`.
 
 ---
 
-## Output Format
+## Output Format (v2 Schema)
 
 ```json
 {
+  "schemaVersion": 2,
   "project": "WarrantyCert",
   "branchName": "ralph/[feature-name-kebab-case]",
   "description": "[Feature description from PRD title/intro]",
+  "run": {
+    "startedAt": null,
+    "currentStoryId": null,
+    "learnings": []
+  },
   "userStories": [
     {
       "id": "US-001",
@@ -35,11 +41,21 @@ Take a PRD (markdown file or text) and convert it to `scripts/ralph/prd.json`.
       ],
       "priority": 1,
       "passes": false,
+      "retries": 0,
+      "lastResult": null,
       "notes": ""
     }
   ]
 }
 ```
+
+**v2 fields:**
+- `schemaVersion: 2` — always include
+- `run.startedAt` — set to null (ralph.sh sets on first run)
+- `run.currentStoryId` — null (set when story starts)
+- `run.learnings` — empty array (populated during run)
+- `retries` — starts at 0 (only retry.sh increments)
+- `lastResult` — null until story completes
 
 ---
 
@@ -138,7 +154,7 @@ For stories with testable logic, also include:
 1. **Each user story becomes one JSON entry**
 2. **IDs**: Sequential (US-001, US-002, etc.) or V-001 for verification
 3. **Priority**: Based on dependency order, then document order
-4. **All stories**: `passes: false` and empty `notes`
+4. **All stories**: `passes: false`, `retries: 0`, `lastResult: null`, empty `notes`
 5. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
 6. **Always add**: "Typecheck passes" to every story's acceptance criteria
 
@@ -185,9 +201,15 @@ Add ability to mark tasks with different statuses.
 
 ```json
 {
+  "schemaVersion": 2,
   "project": "WarrantyCert",
   "branchName": "ralph/task-status",
   "description": "Task Status Feature - Track task progress with status indicators",
+  "run": {
+    "startedAt": null,
+    "currentStoryId": null,
+    "learnings": []
+  },
   "userStories": [
     {
       "id": "US-001",
@@ -200,6 +222,8 @@ Add ability to mark tasks with different statuses.
       ],
       "priority": 1,
       "passes": false,
+      "retries": 0,
+      "lastResult": null,
       "notes": ""
     },
     {
@@ -214,6 +238,8 @@ Add ability to mark tasks with different statuses.
       ],
       "priority": 2,
       "passes": false,
+      "retries": 0,
+      "lastResult": null,
       "notes": ""
     },
     {
@@ -229,6 +255,8 @@ Add ability to mark tasks with different statuses.
       ],
       "priority": 3,
       "passes": false,
+      "retries": 0,
+      "lastResult": null,
       "notes": ""
     },
     {
@@ -243,6 +271,8 @@ Add ability to mark tasks with different statuses.
       ],
       "priority": 4,
       "passes": false,
+      "retries": 0,
+      "lastResult": null,
       "notes": ""
     }
   ]
@@ -251,19 +281,17 @@ Add ability to mark tasks with different statuses.
 
 ---
 
-## Archiving Previous Runs
+## Handling Existing prd.json
 
-**Before writing a new prd.json, check if there is an existing one from a different feature:**
+**Before writing a new prd.json:**
 
-1. Read the current `scripts/ralph/prd.json` if it exists
-2. Check if `branchName` differs from the new feature's branch name
-3. If different AND `scripts/ralph/progress.txt` has content beyond the header:
-   - Create archive folder: `scripts/ralph/archive/YYYY-MM-DD-feature-name/`
-   - Copy current `scripts/ralph/prd.json` and `scripts/ralph/progress.txt` to archive
-   - Reset `scripts/ralph/progress.txt` with fresh header
-4. After writing the new `prd.json`, write the new `branchName` to `scripts/ralph/.last-branch`
+1. Check if `scripts/ralph/prd.json` exists
+2. If it exists and has a different `branchName`:
+   - Git history preserves the old prd.json (no manual archiving needed)
+   - Simply overwrite with the new prd.json
+3. Write the new prd.json
 
-Step 4 prevents `ralph.sh` from double-archiving on startup (it compares `.last-branch` with `prd.json` to detect branch changes). If you are manually updating prd.json between runs without this skill, archive and update `.last-branch` first.
+**Note:** In v2, git tracks prd.json directly. No archive/ folder or .last-branch file needed.
 
 ---
 
@@ -271,10 +299,11 @@ Step 4 prevents `ralph.sh` from double-archiving on startup (it compares `.last-
 
 Before writing `scripts/ralph/prd.json`, verify:
 
-- [ ] **Previous run archived** (if `scripts/ralph/prd.json` exists with different branchName, and `.last-branch` updated)
+- [ ] Schema version is 2
 - [ ] Each story completable in one iteration (small enough)
 - [ ] Stories ordered by dependency (schema → backend → UI)
 - [ ] Every story has "Typecheck passes" as criterion
 - [ ] UI stories have browser verification criterion
 - [ ] Acceptance criteria are verifiable (not vague)
 - [ ] No story depends on a later story
+- [ ] All v2 fields present (run, retries, lastResult)
