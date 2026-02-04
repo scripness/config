@@ -1,4 +1,14 @@
 return {
+  -- Disable markdownlint (MD*** rules)
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters_by_ft = {
+        markdown = {},
+      },
+    },
+  },
+
   -- Use Biome for formatting/linting
   {
     "stevearc/conform.nvim",

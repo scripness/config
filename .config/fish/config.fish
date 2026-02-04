@@ -6,7 +6,9 @@ set -gx EDITOR nvim
 abbr l ll -a
 abbr b bat
 abbr c cat
-abbr a amp --ide
+abbr a amp --dangerously-allow-all --ide
+abbr cc claude --allow-dangerously-skip-permissions --ide
+abbr r ralph
 
 alias cat='bat'
 
